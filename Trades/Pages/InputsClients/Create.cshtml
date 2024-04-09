@@ -1,0 +1,56 @@
+﻿@page
+@model Trades.Pages.InputsClients.CreateModel
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<h1>Add</h1>
+
+<h4>Inputs</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Inputs.Value" class="control-label"></label>
+                <input asp-for="Inputs.Value" class="form-control" />
+                <span asp-validation-for="Inputs.Value" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Inputs.ClientSector" class="control-label"></label>
+                <select asp-for="Inputs.ClientSector" class="form-control">
+                    <option value="Private">Private</option>
+                    <option value="Public">Public</option>
+                </select>
+                <span asp-validation-for="Inputs.ClientSector" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Inputs.ClientName" class="control-label"></label>
+                <input asp-for="Inputs.ClientName" class="form-control" >
+                <span asp-validation-for="Inputs.ClientName" class="text-danger"></span>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <input type="submit" value="Save" class="btn btn-primary" />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="text-md-left">
+                        <div>
+                            <a asp-page="Index" class="btn btn-outline-secondary">Back to List</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

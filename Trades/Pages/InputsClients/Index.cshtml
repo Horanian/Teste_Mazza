@@ -1,0 +1,90 @@
+﻿@page
+@model Trades.Pages.InputsClients.IndexModel
+@namespace Trades.Pages
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<p>
+    <a asp-page="Create" class="btn btn-outline-info" >Add+</a>
+</p>
+<form method="get" asp-page="Index">
+    <div style="height:60px;" class="container border border-secondary">
+        <div class="row">
+            <div class="col-11">
+                <div class=" row" style="padding-top:10px">
+                    <div class="col-4">
+                        @Html.Editor("Trades", new { htmlAttributes = new { @class = "form-control", placeholder = "Trades..." } })
+                    </div>
+                    <div class="col-4">
+                        @Html.Editor("categories", new { htmlAttributes = new { @class = "form-control", placeholder = "categories..." } })
+                    </div>
+                </div>
+            </div>
+            <div class="col-1">
+                <div class="row" style="padding-top:10px; padding-right:15px;">
+                    <button type="submit" name="Search" value="Search" class="btn btn-info form-control">Search
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.OutPuts[0].Trade)
+                </th>
+                <th>
+                   Trade Categories
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Outputs)
+            {
+                <tr>
+                    <td>
+                        @item.Trade
+                    </td>
+                    <td>
+                        @item.TradeType
+                    </td>
+                    <td>
+                        @foreach (var ids in Model.Inputs)
+                        {
+                            if (ids.Id == item.UserId)
+                            {
+                                <a asp-page="./Edit" asp-route-id="@ids.Id" class="btn btn-sm btn-info">Modify</a>
+                                <a asp-page="./Delete" asp-route-id="@ids.Id" class="btn btn-sm btn-danger">Remove</a>
+                            }
+
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    @{
+        var totalPages = Model.Outputs?.TotalPages ?? 1;
+        var currentPage = Model.Outputs?.PageIndex ?? 1;
+    }
+
+    <div class="btn-group">
+        <a asp-page="\Index" asp-route-sortOrder="@Model.CurrentSort" asp-route-pageIndex="@(currentPage - 1)"
+           asp-route-currentFilter="@Model.CurrentFilter" class="btn btn-primary @(currentPage == 1 ? "disabled" : "")"><</a>
+
+        @for (var i = 1; i <= totalPages; i++)
+        {
+            <a asp-page="\Index" asp-route-sortOrder="@Model.CurrentSort" asp-route-pageIndex="@i"
+               asp-route-currentFilter="@Model.CurrentFilter" class="btn @(i == currentPage ? "btn-primary" : "btn-outline-primary")">@i</a>
+        }
+
+        <a asp-page="\Index" asp-route-sortOrder="@Model.CurrentSort" asp-route-pageIndex="@(currentPage + 1)"
+           asp-route-currentFilter="@Model.CurrentFilter" class="btn btn-primary @(currentPage == totalPages ? "disabled" : "")">></a>
+    </div>
+
+</form>
